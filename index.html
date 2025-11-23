@@ -287,12 +287,12 @@
       jewels.forEach(j => drawJewel(j.x, j.y));
       drawHero(hero.x, hero.y);
       drawBull(bull.x, bull.y);
-      if (gameOver) {
+      if (gameOver || !gameStarted) {
         ctx.fillStyle = "#000000aa";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        const msg = jewels.length === 0 ? "You escaped!" : "Caught!";
-        drawText(msg, jewels.length === 0 ? "#7eff99" : "#ff5c5c");
-        drawText("Tap to restart", "#f2f2f2", 12);
+        const msg = !gameStarted ? "Tap Start" : jewels.length === 0 ? "You escaped!" : "Caught!";
+        drawText(msg, !gameStarted ? "#f2f2f2" : jewels.length === 0 ? "#7eff99" : "#ff5c5c");
+        if (gameOver) drawText("Use Restart button", "#f2f2f2", 12);
       }
     }
 
@@ -301,6 +301,23 @@
       render();
       requestAnimationFrame(loop);
     }
+
+    startBtn.addEventListener("click", () => {
+      reset();
+      gameStarted = true;
+      gameOver = false;
+      restartBtn.hidden = true;
+      startBtn.hidden = true;
+    });
+
+    restartBtn.addEventListener("click", () => {
+      reset();
+      gameStarted = true;
+      gameOver = false;
+      restartBtn.hidden = true;
+      startBtn.hidden = true;
+    });
+
     reset();
     loop();
   </script>
